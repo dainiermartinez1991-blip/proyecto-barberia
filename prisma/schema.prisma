@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Admin {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Service {
+  id          String    @id @default(cuid())
+  name        String
+  description String
+  price       Float
+  duration    Int
+  category    String
+  active      Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  bookings    Booking[]
+}
+
+model Barber {
+  id        String    @id @default(cuid())
+  name      String
+  specialty String
+  bio       String
+  imageUrl  String
+  available Boolean   @default(true)
+  instagram String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  bookings  Booking[]
+}
+
+model Booking {
+  id             String        @id @default(cuid())
+  customerName   String
+  customerPhone  String
+  serviceId      String
+  service        Service       @relation(fields: [serviceId], references: [id])
+  barberId       String?
+  barber         Barber?       @relation(fields: [barberId], references: [id])
+  date           DateTime
+  timeSlot       String
+  notes          String?
+  status         BookingStatus @default(PENDING)
+  source         BookingSource @default(FORM)
+
+  // Payment
+  paymentStatus  PaymentStatus @default(UNPAID)
+  paymentId      String?
+  paymentExpiry  DateTime?
+
+  // N8N integration
+  webhookSentAt  DateTime?
+  webhookStatus  WebhookStatus?
+  n8nExecutionId String?
+
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  @@index([barberId, date, timeSlot])
+  @@index([status])
+  @@index([customerPhone])
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+enum BookingSource {
+  FORM
+  WHATSAPP
+}
+
+enum PaymentStatus {
+  UNPAID
+  PAID
+  REFUNDED
+}
+
+enum WebhookStatus {
+  SENT
+  FAILED
+  ACKNOWLEDGED
+}
