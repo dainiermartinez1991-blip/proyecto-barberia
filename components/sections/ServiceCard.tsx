@@ -3,6 +3,7 @@
 import { Clock, DollarSign } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import { useBookingModal } from '@/lib/BookingContext'
+import { useI18n } from '@/lib/I18nContext'
 import type { Service } from '@/lib/types'
 import { cn } from '@/lib/utils'
 
@@ -14,6 +15,7 @@ interface ServiceCardProps {
 
 export default function ServiceCard({ service, className, style }: ServiceCardProps) {
   const { openModal } = useBookingModal()
+  const { t } = useI18n()
 
   return (
     <div
@@ -48,7 +50,7 @@ export default function ServiceCard({ service, className, style }: ServiceCardPr
           size="sm"
           onClick={() => openModal(service.id)}
         >
-          Book This
+          {t('bookThis')}
         </Button>
       </div>
     </div>

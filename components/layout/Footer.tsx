@@ -1,8 +1,13 @@
+'use client'
+
 import Link from 'next/link'
 import { MapPin, Phone, Mail, Clock, AtSign, Globe } from 'lucide-react'
 import { NAV_LINKS, BUSINESS_INFO } from '@/lib/constants'
+import { useI18n } from '@/lib/I18nContext'
 
 export default function Footer() {
+  const { t } = useI18n()
+
   return (
     <footer className="bg-secondary border-t border-neutral-700">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -11,7 +16,7 @@ export default function Footer() {
             <span className="font-display font-bold text-3xl text-primary tracking-wider">NOIR</span>
             <p className="mt-3 text-neutral-300 text-sm leading-relaxed">{BUSINESS_INFO.tagline}</p>
             <p className="mt-4 text-neutral-400 text-sm leading-relaxed">
-              Where precision meets style. Expert barbers dedicated to making you look and feel your best.
+              {t('footerDesc')}
             </p>
             <div className="flex gap-3 mt-5">
               <a
@@ -36,7 +41,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="font-display font-semibold text-neutral-50 mb-4">Navigation</h3>
+            <h3 className="font-display font-semibold text-neutral-50 mb-4">{t('footerNavigation')}</h3>
             <ul className="space-y-2">
               {NAV_LINKS.map(link => (
                 <li key={link.href}>
@@ -47,14 +52,14 @@ export default function Footer() {
               ))}
               <li>
                 <Link href="/booking" className="text-neutral-400 hover:text-primary transition-colors text-sm">
-                  Book Appointment
+                  {t('footerBookAppointment')}
                 </Link>
               </li>
             </ul>
           </div>
 
           <div>
-            <h3 className="font-display font-semibold text-neutral-50 mb-4">Hours</h3>
+            <h3 className="font-display font-semibold text-neutral-50 mb-4">{t('footerHours')}</h3>
             <ul className="space-y-2">
               {BUSINESS_INFO.hours.map(h => (
                 <li key={h.day} className="flex items-start gap-2">
@@ -69,7 +74,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="font-display font-semibold text-neutral-50 mb-4">Contact</h3>
+            <h3 className="font-display font-semibold text-neutral-50 mb-4">{t('footerContact')}</h3>
             <ul className="space-y-3">
               <li className="flex items-start gap-2">
                 <MapPin size={14} className="text-primary mt-0.5 shrink-0" />
@@ -96,9 +101,9 @@ export default function Footer() {
 
         <div className="mt-12 pt-8 border-t border-neutral-700 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-neutral-500 text-sm">
-            &copy; {new Date().getFullYear()} Noir Barbershop. All rights reserved.
+            &copy; {new Date().getFullYear()} Noir Barbershop. {t('footerRights')}
           </p>
-          <p className="text-neutral-500 text-sm">Crafted with precision.</p>
+          <p className="text-neutral-500 text-sm">{t('footerCrafted')}</p>
         </div>
       </div>
     </footer>

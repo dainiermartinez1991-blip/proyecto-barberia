@@ -6,8 +6,10 @@ import { ChevronRight, MapPin, Phone, Mail, Clock, AtSign, Globe, CheckCircle } 
 import Button from '@/components/ui/Button'
 import { Input, Textarea } from '@/components/ui/Input'
 import { BUSINESS_INFO } from '@/lib/constants'
+import { useI18n } from '@/lib/I18nContext'
 
 export default function ContactPage() {
+  const { t } = useI18n()
   const [form, setForm] = useState({ name: '', email: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -23,17 +25,16 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen bg-neutral-900 pt-8 pb-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-sm text-neutral-400 mb-8">
-          <Link href="/" className="hover:text-primary transition-colors">Home</Link>
+          <Link href="/" className="hover:text-primary transition-colors">{t('home')}</Link>
           <ChevronRight size={14} />
-          <span className="text-neutral-100">Contact</span>
+          <span className="text-neutral-100">{t('contactUs')}</span>
         </nav>
 
         <div className="mb-12">
-          <p className="text-primary text-sm font-medium tracking-[0.15em] uppercase mb-3">Get In Touch</p>
+          <p className="text-primary text-sm font-medium tracking-[0.15em] uppercase mb-3">{t('getInTouch')}</p>
           <h1 className="font-display text-5xl lg:text-6xl font-bold text-neutral-50">
-            Contact <span className="text-primary">Us</span>
+            {t('contactUs').split(' ')[0]} <span className="text-primary">{t('contactUs').split(' ').slice(1).join(' ')}</span>
           </h1>
         </div>
 
@@ -46,7 +47,7 @@ export default function ContactPage() {
                   <MapPin size={18} className="text-primary" />
                 </div>
                 <div>
-                  <p className="font-semibold text-neutral-100">Location</p>
+                  <p className="font-semibold text-neutral-100">{t('locationLabel')}</p>
                   <p className="text-neutral-400 text-sm">{BUSINESS_INFO.address}</p>
                   <p className="text-neutral-400 text-sm">{BUSINESS_INFO.city}</p>
                 </div>
@@ -57,7 +58,7 @@ export default function ContactPage() {
                   <Phone size={18} className="text-primary" />
                 </div>
                 <div>
-                  <p className="font-semibold text-neutral-100">Phone</p>
+                  <p className="font-semibold text-neutral-100">{t('phoneLabel')}</p>
                   <a href={`tel:${BUSINESS_INFO.phone}`} className="text-neutral-400 hover:text-primary text-sm transition-colors">
                     {BUSINESS_INFO.phone}
                   </a>
@@ -69,7 +70,7 @@ export default function ContactPage() {
                   <Mail size={18} className="text-primary" />
                 </div>
                 <div>
-                  <p className="font-semibold text-neutral-100">Email</p>
+                  <p className="font-semibold text-neutral-100">{t('emailLabel')}</p>
                   <a href={`mailto:${BUSINESS_INFO.email}`} className="text-neutral-400 hover:text-primary text-sm transition-colors">
                     {BUSINESS_INFO.email}
                   </a>
@@ -79,7 +80,7 @@ export default function ContactPage() {
 
             <div className="bg-secondary border border-neutral-700 rounded-lg p-6">
               <h3 className="font-display font-semibold text-neutral-100 flex items-center gap-2 mb-4">
-                <Clock size={16} className="text-primary" /> Opening Hours
+                <Clock size={16} className="text-primary" /> {t('openingHours')}
               </h3>
               <ul className="space-y-3">
                 {BUSINESS_INFO.hours.map(h => (
@@ -92,7 +93,7 @@ export default function ContactPage() {
             </div>
 
             <div className="bg-secondary border border-neutral-700 rounded-lg p-6">
-              <h3 className="font-display font-semibold text-neutral-100 mb-4">Follow Us</h3>
+              <h3 className="font-display font-semibold text-neutral-100 mb-4">{t('followUs')}</h3>
               <div className="flex gap-3">
                 <a
                   href={`https://instagram.com/${BUSINESS_INFO.social.instagram}`}
@@ -119,28 +120,28 @@ export default function ContactPage() {
             {submitted ? (
               <div className="flex flex-col items-center justify-center h-full gap-4 text-center py-10">
                 <CheckCircle size={48} className="text-primary" />
-                <h3 className="font-display text-2xl font-bold text-neutral-50">Message Sent!</h3>
-                <p className="text-neutral-400">Thanks for reaching out. We&apos;ll get back to you within 24 hours.</p>
+                <h3 className="font-display text-2xl font-bold text-neutral-50">{t('messageSent')}</h3>
+                <p className="text-neutral-400">{t('messageThanks')}</p>
                 <button
                   onClick={() => setSubmitted(false)}
-                  className="text-primary hover:text-primary-light text-sm underline transition-colors"
+                  className="text-primary hover:text-primary-light text-sm underline transition-colors cursor-pointer"
                 >
-                  Send another message
+                  {t('sendAnother')}
                 </button>
               </div>
             ) : (
               <>
-                <h2 className="font-display text-2xl font-bold text-neutral-50 mb-6">Send a Message</h2>
+                <h2 className="font-display text-2xl font-bold text-neutral-50 mb-6">{t('sendMessage')}</h2>
                 <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                   <Input
-                    label="Your Name"
+                    label={t('yourName')}
                     required
                     value={form.name}
                     onChange={e => setForm(p => ({ ...p, name: e.target.value }))}
                     placeholder="John Smith"
                   />
                   <Input
-                    label="Email Address"
+                    label={t('emailAddress')}
                     type="email"
                     required
                     value={form.email}
@@ -148,15 +149,15 @@ export default function ContactPage() {
                     placeholder="john@example.com"
                   />
                   <Textarea
-                    label="Message"
+                    label={t('messageLabel')}
                     required
                     value={form.message}
                     onChange={e => setForm(p => ({ ...p, message: e.target.value }))}
-                    placeholder="How can we help you?"
+                    placeholder={t('howCanHelp')}
                     rows={5}
                   />
                   <Button type="submit" variant="primary" size="lg" loading={loading} className="w-full">
-                    Send Message
+                    {t('sendBtn')}
                   </Button>
                 </form>
               </>

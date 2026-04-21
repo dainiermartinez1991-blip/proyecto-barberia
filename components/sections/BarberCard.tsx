@@ -4,6 +4,7 @@ import { AtSign, User } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import Badge from '@/components/ui/Badge'
 import { useBookingModal } from '@/lib/BookingContext'
+import { useI18n } from '@/lib/I18nContext'
 import type { Barber } from '@/lib/types'
 import { cn } from '@/lib/utils'
 
@@ -15,6 +16,7 @@ interface BarberCardProps {
 
 export default function BarberCard({ barber, className, style }: BarberCardProps) {
   const { openModal } = useBookingModal()
+  const { t } = useI18n()
 
   return (
     <div
@@ -34,16 +36,16 @@ export default function BarberCard({ barber, className, style }: BarberCardProps
         <div className="absolute inset-0 bg-neutral-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
           {barber.available ? (
             <Button variant="primary" size="md" onClick={() => openModal()}>
-              Book with {barber.name.split(' ')[0]}
+              {t('bookThis')} {barber.name.split(' ')[0]}
             </Button>
           ) : (
-            <span className="text-neutral-400 font-medium">Currently Unavailable</span>
+            <span className="text-neutral-400 font-medium">{t('currentlyUnavailable')}</span>
           )}
         </div>
         {/* Availability badge */}
         <div className="absolute top-3 right-3">
           <Badge variant={barber.available ? 'success' : 'danger'}>
-            {barber.available ? 'Available' : 'Unavailable'}
+            {barber.available ? t('available') : t('unavailable')}
           </Badge>
         </div>
       </div>

@@ -4,10 +4,12 @@ import Link from 'next/link'
 import { ArrowRight, Scissors } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import { useBookingModal } from '@/lib/BookingContext'
+import { useI18n } from '@/lib/I18nContext'
 import { BUSINESS_INFO } from '@/lib/constants'
 
 export default function Hero() {
   const { openModal } = useBookingModal()
+  const { t } = useI18n()
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -49,7 +51,7 @@ export default function Hero() {
           </h1>
 
           <p className="mt-8 text-lg sm:text-xl text-neutral-300 max-w-2xl mx-auto leading-relaxed">
-            Premium barbershop experience. Expert cuts, classic shaves, and beard artistry — all under one roof. Your confidence starts here.
+            {t('heroSubtitle')}
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
@@ -59,20 +61,20 @@ export default function Hero() {
               onClick={() => openModal()}
               icon={<Scissors size={18} />}
             >
-              Book Your Appointment
+              {t('heroBookBtn')}
             </Button>
             <Link href="/services">
               <Button variant="ghost" size="lg" icon={<ArrowRight size={18} />} className="text-neutral-300">
-                See Our Services
+                {t('heroSeeServices')}
               </Button>
             </Link>
           </div>
 
           <div className="flex items-center justify-center gap-8 mt-16 text-center">
             {[
-              { value: '10+', label: 'Years of Excellence' },
-              { value: '5K+', label: 'Happy Clients' },
-              { value: '4', label: 'Master Barbers' },
+              { value: '10+', label: t('heroYears') },
+              { value: '5K+', label: t('heroClients') },
+              { value: '4', label: t('heroMasterBarbers') },
             ].map(stat => (
               <div key={stat.label}>
                 <p className="font-display text-3xl font-bold text-primary">{stat.value}</p>
